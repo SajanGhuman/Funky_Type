@@ -1,13 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const Type = () => {
   const [type, setType] = useState("");
+  const [key1, setKey1] = useState({});
+  const [key2, setKey2] = useState({});
+  const [keyCode1, setKeyCode1] = useState();
+  const [keyCode2, setKeyCode2] = useState();
+  const textRef = useRef();
 
   const handleTypeChange = (e) => {
     setType(e.target.value);
-    console.log(e.target.value);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (document.activeElement === textRef.current) {
+        console.log(e);
+        console.log(e.key);
+        console.log(e.keyCode);
+        console.log(e.timeStamp);
+        console.log(e.timeStamp * 100);
+      }
+      return;
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [type]);
 
   return (
     <div>
@@ -18,8 +40,9 @@ const Type = () => {
         value={type}
         cols={60}
         rows={3}
-        maxlength={200}
+        maxLength={200}
         spellCheck={false}
+        ref={textRef}
       ></textarea>
     </div>
   );
