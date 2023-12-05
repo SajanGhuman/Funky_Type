@@ -3,10 +3,13 @@ import React, { useEffect, useState, useRef } from "react";
 
 const Type = () => {
   const [type, setType] = useState("");
+  const [strCount, setStrCount] = useState(0);
   const [key1, setKey1] = useState({});
   const [key2, setKey2] = useState({});
   const [keyCode1, setKeyCode1] = useState();
   const [keyCode2, setKeyCode2] = useState();
+  const [time1, setTime1] = useState(0);
+  const [time2, setTime2] = useState(0);
   const textRef = useRef();
 
   const handleTypeChange = (e) => {
@@ -16,11 +19,26 @@ const Type = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (document.activeElement === textRef.current) {
-        console.log(e);
-        console.log(e.key);
-        console.log(e.keyCode);
-        console.log(e.timeStamp);
-        console.log(e.timeStamp * 100);
+        if (strCount % 2 !== 0 || strCount === 0) {
+          console.log(e);
+          console.log("Key1: " + e.key);
+          console.log("KeyCode1: " + e.keyCode);
+          console.log("Time1: " + e.timeStamp);
+          setKey1(e.key);
+          setKeyCode1(e.keyCode);
+          setTime1(e.timeStamp);
+        } else {
+          console.log(e);
+          console.log("key2: " + e.key);
+          console.log("keyCode2: " + e.keyCode);
+          console.log("Time2: " + e.timeStamp);
+          setKey2(e.key);
+          setKeyCode2(e.keyCode);
+          setTime2(e.timeStamp);
+          const timeDiff = time2 - time1;
+          console.log(timeDiff);
+          setStrCount(0);
+        }
       }
       return;
     };
