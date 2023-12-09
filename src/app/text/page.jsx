@@ -15,12 +15,14 @@ const Text = () => {
   ];
   const doNothing = [9, 13, 32];
   const [textClass, setTextClass] = useState("");
+  const [textCount, setTextCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const textRef = useRef();
   const [display, setDisplay] = useState(str.split(" "));
 
   const handleTextChange = (e) => {
     setText(e.target.value);
+    setTextCount(e.target.value.length);
   };
 
   useEffect(() => {
