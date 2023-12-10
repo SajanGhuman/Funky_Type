@@ -5,20 +5,16 @@ const Text = () => {
   const [text, setText] = useState("");
   const str =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit Vero similiquaperiam possimus sunt soluta suscipit earum nostrum necessitatibus cupiditate doloremque qui harum dolor dicta cumque laborum perspiciatis expedita mollitia iste";
-  const textStyles = {
-    white:
-      "absolute bg-monkey-gray pt-0 pl-5 text-[30px] text-bold leading-9 resize-none text-monkey-text outline-0 outline-none shadow-none -moz-select-none -webkit-select-none -ms-select-none no-underline z-10 opacity-50",
-  };
   const alphabets = [
     65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
     84, 85, 86, 87, 88, 89, 90,
   ];
-  const doNothing = [9, 13, 32];
+  const doNothing = [9, 13, 16, 18];
   const [textClass, setTextClass] = useState("");
   const [textCount, setTextCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const textRef = useRef();
-  const [display, setDisplay] = useState(str.split(" "));
+  const [display, setDisplay] = useState(str.split(""));
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -29,13 +25,40 @@ const Text = () => {
     const handleKeyDown = (e) => {
       if (doNothing.includes(e.keyCode)) e.preventDefault();
       console.log(e.keyCode);
+      // console.log(str.charAt(1));
+      console.log(display);
+      if (document.activeElement === textRef.current && e.key === 8) {
+        // setCharCount(charCount - 1);
+        console.log("gray");
+        setTextClass("gray");
+      }
+      // if (str.charAt(charCount) === " " && str.charAt(charCount - 1) === " ") {
+      //   e.preventDefault();
+      //   e.stopPropagation();
+      //   return false;
+      // }
+      // if (
+      //   document.activeElement === textRef.current &&
+      //   str.charAt(charCount) === 32
+      // ) {
+      //   console.log("entered");
+      //   console.log("yellow");
+      //   setTextClass("yellow");
+      //   setCharCount(charCount + 1);
+      // }
       if (
         document.activeElement === textRef.current &&
         alphabets.includes(e.keyCode)
       ) {
-        if (display.charAt(charCount) === e.key) {
+        if (str.charAt(charCount) === e.key) {
           console.log("entered");
-          setCharCount(charCount++);
+          console.log("yellow");
+          setTextClass("yellow");
+          setCharCount(charCount + 1);
+        } else {
+          console.log("red");
+          setTextClass("red");
+          setCharCount(charCount + 1);
         }
       }
       return;
@@ -66,9 +89,11 @@ const Text = () => {
       text-[22px] text-bold leading-9 resize-none text-monkey-text outline-0 outline-none shadow-none
        -moz-select-none -webkit-select-none -ms-select-none no-underline overflow-hidden tracking-wider`}
       >
-        {display.map((char) => {
-          return `${char} `;
-        })}
+        <div>
+          {display.map((s) => {
+            return <span className={`text-${textClass}-500`}>{s}</span>;
+          })}
+        </div>
       </div>
     </>
   );
